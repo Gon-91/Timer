@@ -25,6 +25,19 @@ int main() {
 				* 아래 기능을 포함하여 구현 예정
 				* 시작 | 기록 | 정지 | 초기화
 				*/
+				printf("아무키나 누르면 시작 합니다.");
+				system("pause");
+
+				//clock함수를 이용
+				while (1) {
+					clock_t time = clock();
+					//형식 변환 
+					double time_double = (double)time / 1000;
+					printf("%.3lf\n", time_double);
+					system("cls");
+					if (time_double > 10) break;
+				}
+
 				printf("1번\n");
 				system("pause");
 				break;
