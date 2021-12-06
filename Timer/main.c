@@ -12,13 +12,13 @@ int main() {
 		printf("1.스톱워치\t2.타이머\t3.종료\n\n");
 		printf("원하는 메뉴를 입력 하세요 : ");
 		scanf_s("%d", &input);
-
 		//메뉴에 따른 제어
 		if (input > 0 && input < 4) {
 			if (input == 3) {
 				printf("프로그램을 종료 합니다.");
 				break;
 			}
+
 			switch (input)
 			{
 			case 1:
@@ -28,37 +28,20 @@ int main() {
 				*/
 				printf("아무키나 누르면 시작 합니다.");
 				system("pause");
-
-				//clock함수를 이용
-				clock_t program_time = clock();
+				clock_t start_time = clock();
 				while (1) {
-					/*
-					clock_t time = clock();
-					//형식 변환 
-					double time_double = (double)time / 1000;
-					printf("%.3lf\n", time_double);
-					system("cls");
-					if (time_double > 10) break;
-					*/
-
-					//시간 측정하기
-					clock_t start_time = program_time;
 					clock_t curr_time = clock() - start_time;
 					double time_double = (double)curr_time / 1000;
 					printf("%.3lf\n", time_double);
-
 					//키 입력을 받았을때 멈추기
 					if (_kbhit()) {
-						system("pause");
 						break;
 					}
 					system("cls");
-
 				}
-
-				printf("1번\n");
 				system("pause");
 				break;
+
 			case 2:
 				/*
 				* 시간 / 분 / 초를 이용한 타이머 카운팅 시작하게 구현 예정
