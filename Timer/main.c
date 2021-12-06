@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<time.h>
 #include<Windows.h>
+#include<conio.h>
 
 int main() {
 	while (1) {
@@ -29,13 +30,30 @@ int main() {
 				system("pause");
 
 				//clock함수를 이용
+				clock_t program_time = clock();
 				while (1) {
+					/*
 					clock_t time = clock();
 					//형식 변환 
 					double time_double = (double)time / 1000;
 					printf("%.3lf\n", time_double);
 					system("cls");
 					if (time_double > 10) break;
+					*/
+
+					//시간 측정하기
+					clock_t start_time = program_time;
+					clock_t curr_time = clock() - start_time;
+					double time_double = (double)curr_time / 1000;
+					printf("%.3lf\n", time_double);
+
+					//키 입력을 받았을때 멈추기
+					if (_kbhit()) {
+						system("pause");
+						break;
+					}
+					system("cls");
+
 				}
 
 				printf("1번\n");
