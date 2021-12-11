@@ -33,9 +33,26 @@ int main() {
 					clock_t curr_time = clock() - start_time;
 					double time_double = (double)curr_time / 1000;
 					printf("%.3lf\n", time_double);
-					//키 입력을 받았을때 멈추기
+					//키 입력을 받았을때 멈추기(일시정지)
 					if (_kbhit()) {
-						break;
+						
+						printf("1.재시작\t2.초기화\t3.종료\n");
+						printf("원하는 기능을 선택 하세요 : ");
+						scanf_s("%d", &input);
+						//1. 재시작 선택시 스톱워치가 이어서 진행
+						if (input == 1) {
+							start_time = clock() - curr_time;
+							continue;
+						}
+						//2. 초기화 선택시 스톱워치가 초기화 후 진행
+						if (input == 2) {
+							start_time = clock();
+							continue;
+						}
+						else {
+							break;
+						}
+
 					}
 					system("cls");
 				}
