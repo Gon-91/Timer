@@ -34,20 +34,22 @@ int main() {
 
 					//UI개선 하기
 					double time_double = (double)curr_time / 1000;
-					printf("%.3lf\n", time_double);
+					//printf("%.3lf\n", time_double);
 
 					int trans;
+					int undersec;
 					int sec;
 					int min;
 					int hour;
 
 					trans = (int)time_double;
+					undersec = curr_time%1000;
 					sec = trans % 60;
 					min = trans /60%60;
 					hour = trans /60/60;
 
-					printf("%d::%d::%d\n", hour,min,sec);
-
+					printf("\n\n\t%d:%d:%d.%d\n\n", hour,min,sec, undersec);
+					
 					//키 입력을 받았을때 멈추기(일시정지)
 					if (_kbhit()) {
 						
