@@ -83,9 +83,56 @@ int main() {
 				* 입력을 통해 카운팅 시간 설정 
 				* 시작 | 정지 | 초기화 
 				*/
-				printf("2번\n");
+				//printf("2번\n");
+
+				//타이머 설정 입력 
+				int set_hour;
+				int set_min;
+				int set_sec;
+				printf("시간을 입력해 주세요 : ");
+				scanf_s("%d", &set_hour);
+				printf("분을 입력해 주세요 : ");
+				scanf_s("%d", &set_min);
+				printf("초을 입력해 주세요 : ");
+				scanf_s("%d", &set_sec);
+
+				printf("아무키나 누르면 타이머가 실행됩니다.\n");
+				printf("설정 시간 %d:%d:%d", set_hour, set_min, set_sec);
 				system("pause");
-				break;
+				int sec = set_sec;
+				int min = set_min;
+				int hour = set_hour;
+				int act = 0;
+				clock_t start_time2 = clock();
+				while (1) {
+					system("cls");
+					clock_t curr_time = clock() - start_time2;
+
+					double time_double = (double)curr_time / 1000;
+					int trans;
+					int undersec;
+					
+
+					trans = (int)time_double;
+					if (act == 1){ 
+						trans = (int)time_double - set_sec; 
+						//printf("작동:");
+						//system("pause");
+
+					}
+
+					printf("\n\n\t%d:%d:%d\n\n", hour, min, sec - trans%60);
+					if (trans % 60 - sec == 0) {
+						min--;
+						sec = 59;
+						act = 1;
+					}
+					if (set_min == -1) {
+						hour--;
+						min = 59;
+					}
+				}
+
 			}
 		}
 		//예외 처리
