@@ -142,6 +142,8 @@ int main() {
 						printf("1. 이어하기\t2. 재설정\t 3. 종료\n");
 						printf("설정 시간을 확인 해 주세요. : ");
 						scanf_s("%d", &input);
+
+						//이어하기시
 						if (input == 1) {
 							printf("아무키나 누르면 타이머가 실행됩니다.\n");
 							system("pause");
@@ -151,6 +153,8 @@ int main() {
 							set_total = set_total + stop_time_sce;
 							start_time2 = clock();
 						}
+
+						//다시 설정시
 						else if(input == 2){
 							while (1) {
 								system("cls");
