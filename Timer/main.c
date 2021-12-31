@@ -3,29 +3,37 @@
 #include<Windows.h>
 #include<conio.h>
 
+
+//2021-12-31
+//소스코드 정리
 int main() {
+
+	//프로그램 시작
 	while (1) {
-		//메뉴 입력
+		
+		//메인 화면 부분
 		system("cls");
 		printf("\t=== Test Program ==\n\n");
 		int input;
 		printf("1.스톱워치\t2.타이머\t3.종료\n\n");
 		printf("원하는 메뉴를 입력 하세요 : ");
 		scanf_s("%d", &input);
-		//메뉴에 따른 제어
+
+		//메뉴 입력 후 동작하기
+		//정상적인 입력이면
 		if (input > 0 && input < 4) {
+
+			//종료 입력시
 			if (input == 3) {
 				printf("프로그램을 종료 합니다.");
 				break;
 			}
 
+			//스톱워치 또는 타이머 부분
 			switch (input)
 			{
 			case 1:
-				/*
-				* 아래 기능을 포함하여 구현 예정
-				* 시작 | 기록 | 정지 | 초기화
-				*/
+				printf("===== 스톱워치 =====\n");
 				printf("아무키나 누르면 시작 합니다.");
 				system("pause");
 				clock_t start_time = clock();
@@ -207,7 +215,7 @@ int main() {
 
 			}
 		}
-		//예외 처리
+		//예외 발생 시 
 		else {
 			while (getchar() != '\n') {}
 			printf("잘못된 입력입니다.");
