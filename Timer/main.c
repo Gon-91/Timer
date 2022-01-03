@@ -3,6 +3,18 @@
 #include<Windows.h>
 #include<conio.h>
 
+// 시간 포맷 구조체
+typedef struct Time_format
+{
+	int total;
+	int hour;
+	int min;
+	int sec;
+	int undersec;
+}Time_format;
+
+
+
 // 기능 - 예외처리 메뉴 입력
 int Intinput(int min, int max) {
 	int input;
@@ -17,30 +29,49 @@ int Intinput(int min, int max) {
 		}
 	}
 }
+// 기능 - 시간 처리
+Time_format GetTime(clock_t time) {
+	Time_format data;
+	double tempd = (double)time / 1000;
+	int tempi = (int)tempd;
+	data.hour = tempi / 60 / 60;
+	data.min = tempi / 60 % 60;
+	data.sec = tempi % 60;
+	data.undersec = time % 1000;
+	return data;
+}
+Time_format SetTime() {
+	Time_format data;
+	int set_total = 0;
+	system("cls");
+	set_total = 0;
+	printf("시간을 입력해 주세요 : ");
+	set_total = Intinput(0, INT_MAX) * 60 * 60;
+	system("cls");
+	printf("분을 입력해 주세요 : ");
+	set_total += Intinput(0, INT_MAX) * 60;
+	system("cls");
+	printf("초를 입력해 주세요 : ");
+	set_total += Intinput(0, INT_MAX);
+	system("cls");
+	data = GetTime((clock_t)(set_total * 1000));
+	data.total = set_total;
+	return data;
+}
 // 구조 - 스톱워치 부분
 void StopWatch() {
 	printf("===== 스톱워치 =====\n");
 	printf("아무키나 누르면 시작 합니다.");
 	system("pause");
 
-
+	Time_format data;
 	clock_t start_time = clock();
 	while (1) {
-		// 시간 계산 및 시간 포맷 만들기
+		// 시간 계산 및 시간 포맷 만들기 
 		clock_t curr_time = clock() - start_time;
-		double time_double = (double)curr_time / 1000;
-		int trans;
-		int undersec;
-		int sec;
-		int min;
-		int hour;
-		trans = (int)time_double;
-		undersec = curr_time % 1000;
-		sec = trans % 60;
-		min = trans / 60 % 60;
-		hour = trans / 60 / 60;
+		data = GetTime(curr_time);
 		//시간 포맷으로 출력
-		printf("\n\n\t%d:%d:%d.%d\n\n", hour, min, sec, undersec);
+		printf("\n\n\t%d:%d:%d.%d\n\n", data.hour, data.min, data.sec, data.undersec);
 
 		//키 입력을 받았을때 멈추기(일시정지)
 		if (_kbhit()) {
@@ -71,28 +102,16 @@ void StopWatch() {
 }
 // 구조 - 타이머 부분
 void Timer() {
+
+	Time_format data;
 	//타이머 설정 입력 
-	int set_total = 0;
 	int input;
 	while (1) {
-		system("cls");
-		set_total = 0;
-		printf("시간을 입력해 주세요 : ");
-		input = Intinput(0, INT_MAX);
-		system("cls");
-		set_total = input * 60 * 60;
-		printf("분을 입력해 주세요 : ");
-		input = Intinput(0, INT_MAX);
-		system("cls");
-		set_total += input * 60;
-		printf("초를 입력해 주세요 : ");
-		input = Intinput(0, INT_MAX);
-		system("cls");
-		set_total += input;
 
+		data = SetTime();
 
 		//시간 설정 확인
-		printf("설정 시간 %d:%d:%d\n", set_total / 60 / 60, set_total / 60 % 60, set_total % 60);
+		printf("설정 시간 %d:%d:%d\n", data.hour, data.min, data.sec);
 		printf("1. 시작\t2. 재설정\n");
 		printf("설정 시간을 확인 해 주세요. : ");
 		input = Intinput(1,2);
@@ -107,20 +126,15 @@ void Timer() {
 			system("pause");
 		}
 	}
-
-
-
-
-
 	// 시간 카운팅 시작 값
-	clock_t start_time2 = clock();
+	clock_t start_time = clock();
 	while (1) {
 		system("cls");
 		// 0초로 맞춤과 설정 시간 - 소모시간 출력
-		clock_t curr_time = clock() - start_time2;
+		clock_t curr_time = clock() - start_time;
 		double time_double = (double)curr_time / 1000;
 		int curr_sec = (int)time_double;
-		int target = set_total - curr_sec;
+		int target = data.total - curr_sec;
 		printf("\n\n\t%d:%d:%d\n\n", target / 60 / 60, target / 60 % 60, target % 60);
 
 		//키입력시 일시정지
@@ -134,41 +148,23 @@ void Timer() {
 			if (input == 1) {
 				printf("아무키나 누르면 타이머가 실행됩니다.\n");
 				system("pause");
-				clock_t stop_time = clock() - (curr_time + start_time2);
-				double stop_time_double = (double)stop_time / 1000;
-				int stop_time_sce = (int)stop_time_double;
-				set_total = set_total + stop_time_sce;
-				start_time2 = clock();
+				clock_t stop_time = clock() - (curr_time + start_time);
+				start_time += stop_time;
 			}
 
 			//다시 설정시
 			else if (input == 2) {
 				while (1) {
-					system("cls");
-					set_total = 0;
-					printf("시간을 입력해 주세요 : ");
-					scanf_s("%d", &input);
-					system("cls");
-					set_total = input * 60 * 60;
-					printf("분을 입력해 주세요 : ");
-					scanf_s("%d", &input);
-					system("cls");
-					set_total += input * 60;
-					printf("초를 입력해 주세요 : ");
-					scanf_s("%d", &input);
-					system("cls");
-					set_total += input;
-
-
+					data = SetTime();
 					//시간 설정 확인
-					printf("설정 시간 %d:%d:%d\n", set_total / 60 / 60, set_total / 60 % 60, set_total % 60);
+					printf("설정 시간 %d:%d:%d\n", data.hour, data.min, data.sec);
 					printf("1. 시작\t2. 재설정\n");
 					printf("설정 시간을 확인 해 주세요. : ");
 					scanf_s("%d", &input);
 					if (input == 1) {
 						printf("아무키나 누르면 타이머가 실행됩니다.\n");
 						system("pause");
-						start_time2 = clock();
+						start_time = clock();
 						break;
 					}
 					else {
